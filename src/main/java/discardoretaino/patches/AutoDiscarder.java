@@ -1,9 +1,11 @@
 package discardoretaino.patches;
 
+import basemod.ReflectionHacks;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePrefixPatch;
 import com.megacrit.cardcrawl.actions.common.DiscardAction;
+import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.screens.select.HandCardSelectScreen;
 import org.apache.logging.log4j.LogManager;
@@ -24,14 +26,14 @@ public class AutoDiscarder {
         @SpirePostfixPatch()
         public static void Postfix(HandCardSelectScreen __instance, String msg, int amount, boolean anyNumber, CardGroup ___hand) {
             logger.info("\n\n\nNow in hand card select screen\n\n");
-            logger.info("Message: " + msg);
-            logger.info("Amount: " + amount);
-            logger.info("anyNumber: " + anyNumber);
-            logger.info("Hand: " + ___hand);
             if (___hand != null) {
                 for (int cardIndex = 0; cardIndex < ___hand.group.size(); cardIndex++) {
                     logger.info("Card at index " + cardIndex + ":" + ___hand.group.get(cardIndex));
                 }
+
+                // For now, just try to select the first card in the hand
+                __instance.hoveredCard = ___hand.group.get(0);
+                ReflectionHacks.privateMethod(HandCardSelectScreen.class, "selectHoveredCard").invoke(__instance);
             }
         }
     }
