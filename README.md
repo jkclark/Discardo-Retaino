@@ -16,8 +16,7 @@ Note: DR will ignore ethereal status/curse cards.
 
 ##### Discarding
 DR will automatically suggest a card to discard when your hand contains:
-- Copies of only a single card
-    - TODO: Prioritize upgraded versions
+- Copies of only a single card (prioritizes non-upgraded cards)
 - TODO: No status/curse cards, and Reflex or Tactician
 - TODO: Neither Reflex nor Tactician, and only one type of status/curse card
 

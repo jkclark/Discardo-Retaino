@@ -30,7 +30,7 @@ public class AutoDiscarder {
                 }
 
                 ArrayList<Integer> cardIndexesToDiscard = CustomDiscardPatch.getCardsToDiscard(___hand);
-                if (!cardIndexesToDiscard.isEmpty()) {
+                if (!cardIndexesToDiscard.isEmpty()) {  // This check seems necessary for whatever reason
                     __instance.hoveredCard = ___hand.group.get(cardIndexesToDiscard.get(0));
                     ReflectionHacks.privateMethod(HandCardSelectScreen.class, "selectHoveredCard").invoke(__instance);
                 }
@@ -50,7 +50,12 @@ public class AutoDiscarder {
             }
 
             if (isHandAllSameCard(hand)) {
-                discardIndexes.add(0);
+                // Find upgraded card index
+                int nonUpgradedCardIndex = getNonUpgradedCardIndex(hand);
+
+                // If hand has all upgraded cards, just return first card in hand
+                discardIndexes.add(nonUpgradedCardIndex == -1 ? 0 : nonUpgradedCardIndex);
+
                 return discardIndexes;
             }
 
@@ -63,6 +68,17 @@ public class AutoDiscarder {
                 return true;
             }
             return hand.getCardNames().stream().distinct().count() == 1;
+        }
+
+        private static int getNonUpgradedCardIndex(CardGroup hand) {
+            /* Return the first index of a non-upgraded card, or return -1 */
+            for (int cardIndex = 0; cardIndex < hand.group.size(); cardIndex++) {
+                if (!hand.group.get(cardIndex).upgraded) {
+                    return cardIndex;
+                }
+            }
+
+            return -1;
         }
     }
 
