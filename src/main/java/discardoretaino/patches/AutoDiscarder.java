@@ -42,10 +42,6 @@ public class AutoDiscarder {
 
                This function returns an array of numbers, each corresponding to an index
                in the list of cards in the hand.
-
-               Logic for auto-discarding:
-               - If all cards are the same, we can choose any card(s).
-               - ...TODO
              */
             ArrayList<Integer> discardIndexes = new ArrayList<Integer>();
 
