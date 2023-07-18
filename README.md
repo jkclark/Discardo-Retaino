@@ -17,8 +17,11 @@ Note: DR will ignore ethereal status/curse cards.
 ##### Discarding
 DR will automatically suggest a card to discard when your hand contains:
 - Copies of only a single card (prioritizes non-upgraded cards)
-- TODO: No status/curse cards, and Reflex or Tactician
-- TODO: Neither Reflex nor Tactician, and only one type of status/curse card
+- Reflex or Tactician (not both) and no status/curse cards
+- Neither Reflex nor Tactician and only one type of status/curse card
+
+TODO: Figure out how to handle discarding multiple cards. I think this can be done
+by first "discarding" one card, and then re-assessing the resulting hand.
 
 ##### Retaining
 DR will automatically suggest a card to retain when your hand contains:
@@ -27,7 +30,7 @@ DR will automatically suggest a card to retain when your hand contains:
 - TODO: Only one non status/curse card
 
 TODO: Figure out how to handle retaining multiple cards. I think this can be done
-by first retaining one card, and then re-assessing the resulting hand.
+by first "retaining" one card, and then re-assessing the resulting hand.
 
 ### Future features
 - Implement TODO logic (above)
