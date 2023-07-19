@@ -162,7 +162,7 @@ public class AutoDiscarder {
                 AbstractCard card = hand.group.get(cardIndex);
 
                 // Only count this card if it's a status/curse and it's NOT ethereal
-                if (isCardEtherealStatusOrCurse(card) && !card.isEthereal) {
+                if (isCardStatusOrCurse(card) && !card.isEthereal) {
                     statusCurseNames.add(card.name);
                 }
             }
@@ -219,10 +219,11 @@ public class AutoDiscarder {
 
         private static boolean isCardEtherealStatusOrCurse(AbstractCard card) {
             /* Return true if card is ethereal and a status/curse, false otherwise. */
-            return (card.isEthereal && (
-                    card.type == AbstractCard.CardType.STATUS ||
-                    card.type == AbstractCard.CardType.CURSE
-            ));
+            return card.isEthereal && isCardStatusOrCurse(card);
+        }
+
+        private static boolean isCardStatusOrCurse(AbstractCard card) {
+            return card.type == AbstractCard.CardType.STATUS || card.type == AbstractCard.CardType.CURSE;
         }
     }
 
