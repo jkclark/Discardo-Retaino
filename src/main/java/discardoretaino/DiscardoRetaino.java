@@ -28,7 +28,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @SpireInitializer
-public class BasicMod implements
+public class DiscardoRetaino implements
         EditStringsSubscriber,
         EditKeywordsSubscriber,
         PostInitializeSubscriber {
@@ -46,10 +46,10 @@ public class BasicMod implements
 
     //This will be called by ModTheSpire because of the @SpireInitializer annotation at the top of the class.
     public static void initialize() {
-        new BasicMod();
+        new DiscardoRetaino();
     }
 
-    public BasicMod() {
+    public DiscardoRetaino() {
         BaseMod.subscribe(this); //This will make BaseMod trigger all the subscribers at their appropriate times.
         logger.info(modID + " subscribed to BaseMod.");
     }
@@ -168,7 +168,7 @@ public class BasicMod implements
             if (annotationDB == null)
                 return false;
             Set<String> initializers = annotationDB.getAnnotationIndex().getOrDefault(SpireInitializer.class.getName(), Collections.emptySet());
-            return initializers.contains(BasicMod.class.getName());
+            return initializers.contains(DiscardoRetaino.class.getName());
         }).findFirst();
         if (infos.isPresent()) {
             info = infos.get();

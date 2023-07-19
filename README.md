@@ -12,7 +12,7 @@ Sometimes DR will be wrong, and that's okay. The idea is to reduce the number of
 you're mindlessly clicking to make an "obvious" choice.
 
 ### Logic
-Note: DR will ignore ethereal status/curse cards.
+DR will ignore ethereal status/curse cards.
 
 ##### Discarding
 DR will automatically suggest a card to discard when your hand contains:

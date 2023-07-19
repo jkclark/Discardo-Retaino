@@ -9,7 +9,7 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
 import java.util.HashMap;
 import java.util.Locale;
 
-import static discardoretaino.BasicMod.*;
+import static discardoretaino.DiscardoRetaino.*;
 
 public class TextureLoader {
     private static final HashMap<String, Texture> textures = new HashMap<>();
