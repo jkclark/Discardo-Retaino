@@ -89,7 +89,7 @@ public class AutoDiscarder {
         }
 
         private static boolean isHandAllSameCard(CardGroup hand) {
-            /* Check if every card in the hand has the same name.
+            /* Check if every card in the hand has the same name (ignoring upgrades).
 
                Ignores ethereal status/curse cards.
             */
@@ -97,7 +97,7 @@ public class AutoDiscarder {
                 return true;
             }
 
-            Set cardNames = new HashSet<String>();
+            Set cardIDs = new HashSet<String>();
             for (int cardIndex = 0; cardIndex < hand.group.size(); cardIndex++) {
                 AbstractCard card = hand.group.get(cardIndex);
 
@@ -106,10 +106,10 @@ public class AutoDiscarder {
                     continue;
                 }
 
-                cardNames.add(card.name);
+                cardIDs.add(card.cardID);
             }
 
-            return cardNames.size() == 1;
+            return cardIDs.size() == 1;
         }
 
         private static int getBestDiscardIndexFromUniformHand(CardGroup hand) {

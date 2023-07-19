@@ -34,14 +34,18 @@ public class CustomHandSetup {
                 Strike_Green upgraded_strike = new Strike_Green();
                 upgraded_strike.upgrade();
 
+                // Upgraded strike 2
+                Strike_Green upgraded_strike_2 = new Strike_Green();
+                upgraded_strike_2.upgrade();
+
                 // Other cards for testing
                 cardsToAdd.add(new Survivor());
                 cardsToAdd.add(new Tactician());
                 cardsToAdd.add(new Reflex());
                 cardsToAdd.add(new Burn());
                 cardsToAdd.add(new Strike_Green());
-                cardsToAdd.add(new Strike_Green());
                 cardsToAdd.add(upgraded_strike);
+                cardsToAdd.add(upgraded_strike_2);
                 cardsToAdd.add(new Defend_Green());
                 cardsToAdd.add(new Dazed());
 
