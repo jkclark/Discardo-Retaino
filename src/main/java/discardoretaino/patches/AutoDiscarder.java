@@ -194,12 +194,10 @@ public class AutoDiscarder {
                Ignores ethereal cards.
              */
             for (int cardIndex = 0; cardIndex < hand.group.size(); cardIndex++) {
-                // Ignore this card if it's an ethereal status/curse
-                if (isCardEtherealStatusOrCurse(hand.group.get(cardIndex))) {
-                    continue;
+                AbstractCard card = hand.group.get(cardIndex);
+                if (isCardStatusOrCurse(card) && !card.isEthereal) {
+                    return cardIndex;
                 }
-
-                return cardIndex;
             }
 
             return -1;
