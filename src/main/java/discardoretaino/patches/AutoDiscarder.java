@@ -28,14 +28,17 @@ public class AutoDiscarder {
     )
     public static class CustomDiscardPatch {
         @SpirePostfixPatch()
-        public static void Postfix(HandCardSelectScreen __instance, String msg, int amount, boolean anyNumber,
-                                   CardGroup ___hand) {
-            if (___hand != null) {
-                for (int cardIndex = 0; cardIndex < ___hand.group.size(); cardIndex++) {
-                    logger.info("Card at index " + cardIndex + ":" + ___hand.group.get(cardIndex));
-                }
-
+        public static void Postfix(HandCardSelectScreen __instance, String msg,
+                                   int amount, boolean anyNumber, CardGroup ___hand,
+                                   String ___message) {
+            // This check is to make sure that we're discarding here, not
+            // putting on top of our draw pile (for example)
+            String[] split_message = ___message.split(" ");
+            if (split_message[split_message.length - 1].equals("Discard") && ___hand != null) {
+                // Get indexes of cards to discard
                 ArrayList<Integer> cardIndexesToDiscard = CustomDiscardPatch.getCardsToDiscard(___hand);
+
+                // If there are cards to suggest, suggest them
                 if (!cardIndexesToDiscard.isEmpty()) {  // This check seems necessary for whatever reason
                     // TODO: Handle the case of multiple discards here
                     __instance.hoveredCard = ___hand.group.get(cardIndexesToDiscard.get(0));
