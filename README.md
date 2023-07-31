@@ -34,6 +34,7 @@ by first "retaining" one card, and then re-assessing the resulting hand.
 
 ### Future features
 - Implement TODO logic (above)
+- Implement exhaust features (e.g., True Grit+)
 - A setting to enable auto-discarding, not just auto-selecting (?)
 - A setting to enable/disable each condition above (?)
 - When retaining a card from a one-card hand, should we retain curses?
