@@ -39,15 +39,14 @@ public class CustomHandSetup {
                 upgraded_strike_2.upgrade();
 
                 // Other cards for testing
-                cardsToAdd.add(new Survivor());
-                cardsToAdd.add(new Tactician());
-                cardsToAdd.add(new Reflex());
-                cardsToAdd.add(new Burn());
+                cardsToAdd.add(new WellLaidPlans());
                 cardsToAdd.add(new Strike_Green());
                 cardsToAdd.add(upgraded_strike);
                 cardsToAdd.add(upgraded_strike_2);
-                cardsToAdd.add(new Defend_Green());
                 cardsToAdd.add(new Dazed());
+                cardsToAdd.add(new Dazed());
+                cardsToAdd.add(new Dazed());
+
 
                 for (int cardIndex = 0; cardIndex < cardsToAdd.size(); cardIndex++) {
                     ___instance.hand.addToHand(cardsToAdd.get(cardIndex));

@@ -227,7 +227,5 @@ public class AutoDiscarder {
             return card.type == AbstractCard.CardType.STATUS || card.type == AbstractCard.CardType.CURSE;
         }
     }
-
-    // TODO: Custom patch for retain in a different file
 }
 

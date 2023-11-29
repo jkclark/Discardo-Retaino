@@ -25,9 +25,9 @@ by first "discarding" one card, and then re-assessing the resulting hand.
 
 ##### Retaining
 DR will automatically suggest a card to retain when your hand contains:
-- TODO: Copies of only a single card
-    - TODO: Prioritize upgraded versions
-- TODO: Only one non status/curse card
+- Copies of only a single card (prioritizes upgraded cards)
+- TODO: Prioritize Perseverance, Sands of Time, and Windmill Strike
+- TODO: Investigate how cards which already have "Retain" work when retaining
 
 TODO: Figure out how to handle retaining multiple cards. I think this can be done
 by first "retaining" one card, and then re-assessing the resulting hand.
