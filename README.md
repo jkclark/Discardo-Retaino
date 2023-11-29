@@ -11,9 +11,9 @@ experiences. DR automatically selects a card for you to discard or retain when t
 Sometimes DR will be wrong, and that's okay. The idea is to reduce the number of times
 you're mindlessly clicking to make an "obvious" choice.
 
-### Logic
+## Logic
 
-##### Discarding
+### Discarding
 When discarding, DR will ignore:
 - Ethereal status cards
 - Ethereal curse cards
@@ -26,7 +26,7 @@ DR will automatically suggest a card to discard when your hand contains:
 TODO: Figure out how to handle discarding multiple cards. I think this can be done
 by first "discarding" one card, and then re-assessing the resulting hand.
 
-##### Retaining
+### Retaining
 When retaining, DR will ignore:
 - Ethereal status cards
 - Ethereal curse cards
@@ -38,7 +38,7 @@ DR will automatically suggest a card to retain when your hand contains:
 TODO: Figure out how to handle retaining multiple cards. I think this can be done
 by first "retaining" one card, and then re-assessing the resulting hand.
 
-### Future features
+## Future features
 - Implement TODO logic (above)
 - Implement exhaust features (e.g., True Grit+)
 - A setting to enable auto-discarding, not just auto-selecting (?)
