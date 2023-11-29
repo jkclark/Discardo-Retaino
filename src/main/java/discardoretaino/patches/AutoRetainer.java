@@ -42,44 +42,72 @@ public class AutoRetainer {
             String[] split_message = ___message.split(" ");
             if (split_message[split_message.length - 1].equals("Retain") && ___hand != null) {
                 // Get indexes of cards to retain
-                ArrayList<Integer> cardIndexesToRetain = CustomRetainPatch.getCardsToRetain(___hand);
+                ArrayList<Integer> cardIndexesToRetain = getCardIndexesToRetain(___hand, amount);
 
                 // If there are cards to suggest, suggest them
                 if (!cardIndexesToRetain.isEmpty()) {  // This check seems necessary for whatever reason
-                    // TODO: Handle the case of multiple retains here
-                    __instance.hoveredCard = ___hand.group.get(cardIndexesToRetain.get(0));
-                    ReflectionHacks.privateMethod(HandCardSelectScreen.class, "selectHoveredCard").invoke(__instance);
+                    // Click on the card at each index
+                    for (int retainIndex = 0; retainIndex < cardIndexesToRetain.size(); retainIndex++) {
+                        // Select this card for retaining
+                        __instance.hoveredCard =
+                                ___hand.group.get(cardIndexesToRetain.get(retainIndex));
+                        ReflectionHacks.privateMethod(HandCardSelectScreen.class, "selectHoveredCard").invoke(__instance);
+                    }
                 }
             }
         }
 
-        private static ArrayList<Integer> getCardsToRetain(CardGroup hand) {
-            /* Determine which cards should be auto-selected for retain.
-
-               This method returns an array of numbers, each corresponding to an index
-               in the list of cards in the hand.
-
-               The logic here ignores ethereal status/curse cards.
+        private static ArrayList<Integer> getCardIndexesToRetain(CardGroup hand, int numToRetain) {
+            /* Return an array of indexes of cards to retain.
+             *
+             * The returned array is returned in decreasing order so that we don't have to alter
+             * the indexes as we remove them. If we removed from left to right, later indexes
+             * would be affected by removing earlier indexes.
              */
-            ArrayList<Integer> retainIndexes = new ArrayList<>();
+            ArrayList<Integer> indexesToRetain = new ArrayList<>();
+
+            // Copy hand so that we can remove cards when doing multiple retains
+            CardGroup fakeHand = new CardGroup(hand, hand.type);
+
+            for (int iteration = 0; iteration < numToRetain; iteration++) {
+                // Find index of card to retain
+                int indexToRetain = getCardIndexToRetain(fakeHand);
+
+                // If there's no card to retain, continue
+                if (indexToRetain < 0) {
+                    continue;
+                }
+
+                // Add index to output list
+                indexesToRetain.add(indexToRetain);
+
+                // Remove card from fake hand
+                fakeHand.removeCard(fakeHand.group.get(indexToRetain));
+            }
+
+            return indexesToRetain;
+        }
+
+        private static int getCardIndexToRetain(CardGroup hand) {
+            /* Determine the index of the card that should be auto-selected for retain.
+             *
+             * Returns -1 if no card should be retained.
+             * Ignores ethereal status/curses cards and cards with Retain.
+             * Favors cards to the right over cards to the left. This is done to make retaining
+             * multiple cards easier.
+             */
 
             // 1. Hand is empty
             if (hand.group.isEmpty()) {
-                return retainIndexes;
+                return -1;
             }
 
             // 2. Hand has all copies of the same card (upgraded or otherwise)
             if (isHandAllSameCard(hand)) {
-                int bestRetainIndex = getBestRetainIndexFromUniformHand(hand);
-
-                if (bestRetainIndex != -1) {
-                    retainIndexes.add(bestRetainIndex);
-                }
-
-                return retainIndexes;
+                return getBestRetainIndexFromUniformHand(hand);
             }
 
-            return retainIndexes;
+            return -1;
         }
 
         private static boolean isHandAllSameCard(CardGroup hand) {
@@ -114,20 +142,24 @@ public class AutoRetainer {
         private static int getBestRetainIndexFromUniformHand(CardGroup hand) {
             /* Return the index of the best card to retain given a hand of all the same cards.
 
-               This ignores ethereal status/curse cards.
+               This ignores ethereal status/curse cards and cards with Retain.
+
+               This function will favor a card with a higher index because it makes
+               handling multiple retains easier.
 
                This method will return the following:
-                   - The index of the first upgraded card
-                   - The index of the first non-upgraded card
+                   - The index of the rightmost upgraded card
+                   - The index of the rightmost non-upgraded card
                    - -1, to indicate that no card should be retained
 
                For example:
-                   [Strike+, Strike+, Strike ] -> 0
-                   [Strike,  Strike+, Strike+] -> 1
-                   [Dazed,   Dazed,   Strike ] -> 2
+                   [Strike+, Strike+, Strike ] -> 1
+                   [Strike,  Strike+, Strike+] -> 2
+                   [Strike,  Dazed,   Dazed  ] -> 0
+                   [Windmill Strike, Dazed   ] -> -1
              */
             int unupgradedIndex = -1;
-            for (int cardIndex = 0; cardIndex < hand.group.size(); cardIndex++) {
+            for (int cardIndex = hand.group.size() - 1; cardIndex >= 0; cardIndex--) {
                 AbstractCard card = hand.group.get(cardIndex);
 
                 // Ignore this card if it's an ethereal status/curse
@@ -135,12 +167,16 @@ public class AutoRetainer {
                     continue;
                 }
 
-                // Return the first upgraded index we see
+                if (card.selfRetain) {
+                    continue;
+                }
+
+                // Return the first upgraded index we see (iterating backwards)
                 if (card.upgraded) {
                     return cardIndex;
                 }
 
-                // Keep track of the first upgraded card in the hand
+                // Keep track of the first upgraded card in the hand (iterating backwards)
                 if (unupgradedIndex == -1 && !card.upgraded) {
                     unupgradedIndex = cardIndex;
                 }

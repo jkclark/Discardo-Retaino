@@ -18,12 +18,12 @@ When discarding, DR will ignore:
 - Ethereal status cards
 - Ethereal curse cards
 
-DR will automatically suggest a card to discard when your hand contains:
-- Copies of only a single card (prioritizes non-upgraded cards)
-- Reflex or Tactician (not both) and no status/curse cards
-- Neither Reflex nor Tactician and only one type of status/curse card
+DR will automatically suggest a card to discard when one of the following is true:
+- Your hand contains copies of only a single card (prioritizes non-upgraded cards)
+- Your hand contains Reflex or Tactician (not both) and no status/curse cards
+- Your hand contains neither Reflex nor Tactician and only one type of status/curse card
 
-TODO: Figure out how to handle discarding multiple cards. I think this can be done
+**TODO**: Figure out how to handle discarding multiple cards. I think this can be done
 by first "discarding" one card, and then re-assessing the resulting hand.
 
 ### Retaining
@@ -32,16 +32,17 @@ When retaining, DR will ignore:
 - Ethereal curse cards
 - Cards with Retain
 
-DR will automatically suggest a card to retain when your hand contains:
-- Copies of only a single card (prioritizes upgraded cards)
+If your hand contains copies of only a single card, DR will suggest as many as possible
+(prioritizing upgraded cards). Otherwise, **TODO** DR will only suggest cards to retain if you can
+retain your whole hand.
 
-TODO: Figure out how to handle retaining multiple cards. I think this can be done
-by first "retaining" one card, and then re-assessing the resulting hand.
+**TODO**: Test curses like Injury.
 
 ## Future features
 - Implement TODO logic (above)
 - Implement exhaust features (e.g., True Grit+)
 - A setting to enable auto-discarding, not just auto-selecting (?)
 - A setting to enable/disable each condition above (?)
-- When retaining a card from a one-card hand, should we retain curses?
+- Should we retain curses?
     - A setting for this (?)
+- What happens with Gambler's Brew?
