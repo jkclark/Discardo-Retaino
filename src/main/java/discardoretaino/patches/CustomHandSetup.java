@@ -44,8 +44,8 @@ public class CustomHandSetup {
                 cardsToAdd.add(upgraded_strike);
                 cardsToAdd.add(upgraded_strike_2);
                 cardsToAdd.add(new Dazed());
-                cardsToAdd.add(new Dazed());
-                cardsToAdd.add(new Dazed());
+                cardsToAdd.add(new Reflex());
+                cardsToAdd.add(new Survivor());
 
 
                 for (int cardIndex = 0; cardIndex < cardsToAdd.size(); cardIndex++) {

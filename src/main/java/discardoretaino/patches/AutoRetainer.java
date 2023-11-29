@@ -34,12 +34,10 @@ public class AutoRetainer {
                                    boolean canPickZero, boolean forTransform,
                                    boolean forUpgrade, boolean upTo, CardGroup ___hand,
                                    String ___message) {
-            System.out.println("Screen is open!!");
             // This check is to make sure that we're retaining here, not
             // putting on top of our draw pile (for example)
             String[] split_message = ___message.split(" ");
             if (split_message[split_message.length - 1].equals("Retain") && ___hand != null) {
-                System.out.println("Need to retain a card!!!");
                 // Get indexes of cards to retain
                 ArrayList<Integer> cardIndexesToRetain = CustomRetainPatch.getCardsToRetain(___hand);
 

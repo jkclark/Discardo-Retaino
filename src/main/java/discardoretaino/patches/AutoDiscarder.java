@@ -11,9 +11,7 @@ import com.megacrit.cardcrawl.screens.select.HandCardSelectScreen;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class AutoDiscarder {
     public static String modID; //Edit your pom.xml to change this
@@ -64,7 +62,11 @@ public class AutoDiscarder {
 
             // Used in (3) and (4)
             int numDistinctStatusCurseCards = getHandDistinctStatusCurseCards(hand);
-            int handReflexTacticianXor = getHandReflexTacticianXor(hand);
+
+            ArrayList<String> goodDiscardCards = new ArrayList<>();
+            goodDiscardCards.add(Reflex.ID);
+            goodDiscardCards.add(Tactician.ID);
+            int handGoodDiscardCardsCount = getUniqueCountOfGivenCardsInHand(goodDiscardCards, hand);
 
             // 2. Hand has all copies of the same card (upgraded or otherwise)
             if (isHandAllSameCard(hand)) {
@@ -79,12 +81,12 @@ public class AutoDiscarder {
             }
 
             // 3. Hand has (no status/curse cards && (Reflex xor Tactician))
-            else if (numDistinctStatusCurseCards == 0 && handReflexTacticianXor == 1) {
+            else if (numDistinctStatusCurseCards == 0 && handGoodDiscardCardsCount == 1) {
                 discardIndexes.add(getHandReflexTacticianIndex(hand));
             }
 
             // 4. Hand has (only one type of status/curse card && !(Reflex or Tactician))
-            else if (numDistinctStatusCurseCards == 1 && handReflexTacticianXor == 0) {
+            else if (numDistinctStatusCurseCards == 1 && handGoodDiscardCardsCount == 0) {
                 discardIndexes.add(getHandStatusCurseCardIndex(hand));
             }
 
@@ -173,22 +175,32 @@ public class AutoDiscarder {
             return statusCurseNames.size();
         }
 
-        private static int getHandReflexTacticianXor(CardGroup hand) {
-            /* Return 0, 1, or 2 for neither, either, and both Reflex/Tactician in hand. */
-            int hasReflex = 0;
-            int hasTactician = 0;
+        private static int getUniqueCountOfGivenCardsInHand(ArrayList<String> cards,
+                                                            CardGroup hand) {
+            /* Return the number of given card ID's that appear in hand, not counting duplicates. */
+            // Create map from card ID -> false
+            Map<String, Boolean> seen = new HashMap<String, Boolean>();
+            for (int cardIndex = 0; cardIndex < cards.size(); cardIndex++) {
+                seen.put(cards.get(cardIndex), false);
+            }
+
+            // Mark each card in hand as seen if it is in the list of given cards
             for (int cardIndex = 0; cardIndex < hand.group.size(); cardIndex++) {
-                switch (hand.group.get(cardIndex).cardID) {
-                    case Reflex.ID:
-                        hasReflex = 1;
-                        break;
-                    case Tactician.ID:
-                        hasTactician = 1;
-                        break;
+                String cardID = hand.group.get(cardIndex).cardID;
+                if (seen.containsKey(cardID)) {
+                    seen.put(cardID, true);
                 }
             }
 
-            return hasReflex + hasTactician;
+            // Find the count of seen cards
+            int count = 0;
+            for (Map.Entry<String, Boolean> entry : seen.entrySet()) {
+                if (entry.getValue() == true) {
+                    count++;
+                }
+            }
+
+            return count;
         }
 
         private static int getHandStatusCurseCardIndex(CardGroup hand) {
