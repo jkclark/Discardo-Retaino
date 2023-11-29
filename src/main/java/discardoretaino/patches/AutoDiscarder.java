@@ -70,7 +70,6 @@ public class AutoDiscarder {
 
             // 2. Hand has all copies of the same card (upgraded or otherwise)
             if (isHandAllSameCard(hand)) {
-                // Find upgraded and non-upgraded card indexes
                 int bestDiscardIndex = getBestDiscardIndexFromUniformHand(hand);
 
                 if (bestDiscardIndex != -1) {
@@ -175,7 +174,7 @@ public class AutoDiscarder {
             return statusCurseNames.size();
         }
 
-        public static int getUniqueCountOfGivenCardsInHand(ArrayList<String> cards,
+        private static int getUniqueCountOfGivenCardsInHand(ArrayList<String> cards,
                                                             CardGroup hand) {
             /* Return the number of given card ID's that appear in hand, not counting duplicates. */
             // Create map from card ID -> false
@@ -218,7 +217,7 @@ public class AutoDiscarder {
             return -1;
         }
 
-        public static int getFirstIndexOfGivenCardsInHand(ArrayList<String> cards,
+        private static int getFirstIndexOfGivenCardsInHand(ArrayList<String> cards,
                                                            CardGroup hand) {
             /* Return the index of the first Reflex/Tactician card in the hand, -1 if none exist. */
             for (int cardIndex = 0; cardIndex < hand.group.size(); cardIndex++) {

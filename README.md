@@ -12,9 +12,12 @@ Sometimes DR will be wrong, and that's okay. The idea is to reduce the number of
 you're mindlessly clicking to make an "obvious" choice.
 
 ### Logic
-DR will ignore ethereal status/curse cards.
 
 ##### Discarding
+When discarding, DR will ignore:
+- Ethereal status cards
+- Ethereal curse cards
+
 DR will automatically suggest a card to discard when your hand contains:
 - Copies of only a single card (prioritizes non-upgraded cards)
 - Reflex or Tactician (not both) and no status/curse cards
@@ -24,10 +27,13 @@ TODO: Figure out how to handle discarding multiple cards. I think this can be do
 by first "discarding" one card, and then re-assessing the resulting hand.
 
 ##### Retaining
+When retaining, DR will ignore:
+- Ethereal status cards
+- Ethereal curse cards
+- Cards with Retain
+
 DR will automatically suggest a card to retain when your hand contains:
 - Copies of only a single card (prioritizes upgraded cards)
-- TODO: Prioritize Perseverance, Sands of Time, and Windmill Strike
-- TODO: Investigate how cards which already have "Retain" work when retaining
 
 TODO: Figure out how to handle retaining multiple cards. I think this can be done
 by first "retaining" one card, and then re-assessing the resulting hand.

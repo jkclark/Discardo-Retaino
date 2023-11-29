@@ -7,6 +7,9 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.cards.green.Reflex;
 import com.megacrit.cardcrawl.cards.green.Tactician;
+import com.megacrit.cardcrawl.cards.purple.Perseverance;
+import com.megacrit.cardcrawl.cards.purple.SandsOfTime;
+import com.megacrit.cardcrawl.cards.purple.WindmillStrike;
 import com.megacrit.cardcrawl.screens.select.HandCardSelectScreen;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -58,7 +61,7 @@ public class AutoRetainer {
 
                The logic here ignores ethereal status/curse cards.
              */
-            ArrayList<Integer> retainIndexes = new ArrayList<Integer>();
+            ArrayList<Integer> retainIndexes = new ArrayList<>();
 
             // 1. Hand is empty
             if (hand.group.isEmpty()) {
@@ -67,7 +70,6 @@ public class AutoRetainer {
 
             // 2. Hand has all copies of the same card (upgraded or otherwise)
             if (isHandAllSameCard(hand)) {
-                // Find upgraded and non-upgraded card indexes
                 int bestRetainIndex = getBestRetainIndexFromUniformHand(hand);
 
                 if (bestRetainIndex != -1) {
@@ -83,7 +85,7 @@ public class AutoRetainer {
         private static boolean isHandAllSameCard(CardGroup hand) {
             /* Check if every card in the hand has the same name (ignoring upgrades).
 
-               Ignores ethereal status/curse cards.
+               Ignores ethereal status/curse cards and cards with Retain.
             */
             if (hand.group.isEmpty()) {
                 return true;
@@ -95,6 +97,11 @@ public class AutoRetainer {
 
                 // Ignore this card if it's an ethereal status/curse
                 if (isCardEtherealStatusOrCurse(card)) {
+                    continue;
+                }
+
+                // Ignore this card if it has Retain
+                if (card.selfRetain) {
                     continue;
                 }
 
