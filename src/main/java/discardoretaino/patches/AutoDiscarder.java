@@ -82,7 +82,7 @@ public class AutoDiscarder {
 
             // 3. Hand has (no status/curse cards && (Reflex xor Tactician))
             else if (numDistinctStatusCurseCards == 0 && handGoodDiscardCardsCount == 1) {
-                discardIndexes.add(getHandReflexTacticianIndex(hand));
+                discardIndexes.add(getFirstIndexOfGivenCardsInHand(goodDiscardCards, hand));
             }
 
             // 4. Hand has (only one type of status/curse card && !(Reflex or Tactician))
@@ -175,7 +175,7 @@ public class AutoDiscarder {
             return statusCurseNames.size();
         }
 
-        private static int getUniqueCountOfGivenCardsInHand(ArrayList<String> cards,
+        public static int getUniqueCountOfGivenCardsInHand(ArrayList<String> cards,
                                                             CardGroup hand) {
             /* Return the number of given card ID's that appear in hand, not counting duplicates. */
             // Create map from card ID -> false
@@ -218,11 +218,12 @@ public class AutoDiscarder {
             return -1;
         }
 
-        private static int getHandReflexTacticianIndex(CardGroup hand) {
+        public static int getFirstIndexOfGivenCardsInHand(ArrayList<String> cards,
+                                                           CardGroup hand) {
             /* Return the index of the first Reflex/Tactician card in the hand, -1 if none exist. */
             for (int cardIndex = 0; cardIndex < hand.group.size(); cardIndex++) {
                 String cardID = hand.group.get(cardIndex).cardID;
-                if (cardID == Reflex.ID || cardID == Tactician.ID) {
+                if (cards.contains(cardID)) {
                     return cardIndex;
                 }
             }
