@@ -5,11 +5,6 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
-import com.megacrit.cardcrawl.cards.green.Reflex;
-import com.megacrit.cardcrawl.cards.green.Tactician;
-import com.megacrit.cardcrawl.cards.purple.Perseverance;
-import com.megacrit.cardcrawl.cards.purple.SandsOfTime;
-import com.megacrit.cardcrawl.cards.purple.WindmillStrike;
 import com.megacrit.cardcrawl.screens.select.HandCardSelectScreen;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -64,11 +59,20 @@ public class AutoRetainer {
              * the indexes as we remove them. If we removed from left to right, later indexes
              * would be affected by removing earlier indexes.
              */
-            ArrayList<Integer> indexesToRetain = new ArrayList<>();
+
+            // 1. Can we retain the whole hand (using usual ignore rules)? If so, suggest all cards
+            ArrayList<Integer> nonIgnorableCardIndexes = getNonIgnorableCardIndexes(hand);
+            if (nonIgnorableCardIndexes.size() <= numToRetain) {
+                return nonIgnorableCardIndexes;
+            }
+
+            // 2. If not, does our hand contain only copies of a single card? If yes, retain as
+            //    many as possible, prioritizing upgraded cards.
 
             // Copy hand so that we can remove cards when doing multiple retains
             CardGroup fakeHand = new CardGroup(hand, hand.type);
 
+            ArrayList<Integer> indexesToRetain = new ArrayList<>();
             for (int iteration = 0; iteration < numToRetain; iteration++) {
                 // Find index of card to retain
                 int indexToRetain = getCardIndexToRetain(fakeHand);
@@ -86,6 +90,28 @@ public class AutoRetainer {
             }
 
             return indexesToRetain;
+        }
+
+        private static ArrayList<Integer> getNonIgnorableCardIndexes(CardGroup hand) {
+            /* Return the indexes of cards in the hand using the usual ignore rules.
+             *
+             * This means ignoring ethereal status/curse cards and cards with Retain.
+             * This method will return the indexes in decreasing order, because it makes
+             * it easier for repeatedly choosing cards to retain.
+             */
+            ArrayList<Integer> nonIgnorableCardIndexes = new ArrayList<>();
+
+            // Iterate backwards to create decreasing list of indexes
+            for (int cardIndex = hand.group.size() - 1; cardIndex >= 0; cardIndex--) {
+                // Continue if this card should be ignored
+                if (shouldIgnoreCard(hand.group.get(cardIndex))) {
+                    continue;
+                }
+
+                nonIgnorableCardIndexes.add(cardIndex);
+            }
+
+            return nonIgnorableCardIndexes;
         }
 
         private static int getCardIndexToRetain(CardGroup hand) {
@@ -123,13 +149,8 @@ public class AutoRetainer {
             for (int cardIndex = 0; cardIndex < hand.group.size(); cardIndex++) {
                 AbstractCard card = hand.group.get(cardIndex);
 
-                // Ignore this card if it's an ethereal status/curse
-                if (isCardEtherealStatusOrCurse(card)) {
-                    continue;
-                }
-
-                // Ignore this card if it has Retain
-                if (card.selfRetain) {
+                // Ignore this card if it's an ethereal status/curse or has Retain
+                if (shouldIgnoreCard(card)) {
                     continue;
                 }
 
@@ -162,12 +183,8 @@ public class AutoRetainer {
             for (int cardIndex = hand.group.size() - 1; cardIndex >= 0; cardIndex--) {
                 AbstractCard card = hand.group.get(cardIndex);
 
-                // Ignore this card if it's an ethereal status/curse
-                if (isCardEtherealStatusOrCurse(card)) {
-                    continue;
-                }
-
-                if (card.selfRetain) {
+                // Ignore this card if it's an ethereal status/curse or has Retain
+                if (shouldIgnoreCard(card)) {
                     continue;
                 }
 
@@ -187,6 +204,11 @@ public class AutoRetainer {
             return -1;
         }
 
+        private static boolean shouldIgnoreCard(AbstractCard card) {
+            /* Return true if card is an ethereal status/curse or has Retain, false otherwise. */
+            return isCardEtherealStatusOrCurse(card) || doesCardHaveRetain(card);
+        }
+
         private static boolean isCardEtherealStatusOrCurse(AbstractCard card) {
             /* Return true if card is ethereal and a status/curse, false otherwise. */
             return card.isEthereal && isCardStatusOrCurse(card);
@@ -194,6 +216,11 @@ public class AutoRetainer {
 
         private static boolean isCardStatusOrCurse(AbstractCard card) {
             return card.type == AbstractCard.CardType.STATUS || card.type == AbstractCard.CardType.CURSE;
+        }
+
+        private static boolean doesCardHaveRetain(AbstractCard card) {
+            /* Return true if the card has Retain, false otherwise. */
+            return card.selfRetain;
         }
     }
 }

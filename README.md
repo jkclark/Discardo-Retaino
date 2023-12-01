@@ -33,7 +33,7 @@ When retaining, DR will ignore:
 - Cards with Retain
 
 If your hand contains copies of only a single card, DR will suggest as many as possible
-(prioritizing upgraded cards). Otherwise, **TODO** DR will only suggest cards to retain if you can
+(prioritizing upgraded cards). Otherwise, DR will only suggest cards to retain if you can
 retain your whole hand.
 
 **TODO**: Test curses like Injury.
