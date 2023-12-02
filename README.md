@@ -2,7 +2,7 @@
 
 [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3102760514) 
 
-Ever playing a deck with a lot of discard, and you find
+Have you ever been playing a deck with a lot of discard, when you find
 yourself discarding the same cards over and over? Have a hand
 full of Strikes when retaining, so it doesn't matter which
 card you choose? Well, look no further for a solution!
