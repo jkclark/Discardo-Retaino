@@ -1,6 +1,6 @@
-# Discardo Retaino
+# Discardo Retaino ![Subscribers](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fshieldsio-steam-workshop.jross.me%2F3102760514%2Fsubscriptions-text) ![Favorites](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fshieldsio-steam-workshop.jross.me%2F3102760514%2Ffavorites-text)
 
-[Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3102760514)
+[Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3102760514) 
 
 Ever been playing a deck with a lot of discard, and you find
 yourself discarding the same cards over and over? Ever have a hand
