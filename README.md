@@ -1,5 +1,7 @@
 # Discardo Retaino
 
+[Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3102760514)
+
 Ever been playing a deck with a lot of discard, and you find
 yourself discarding the same cards over and over? Ever have a hand
 full of Strikes when retaining, so that it doesn't matter which
