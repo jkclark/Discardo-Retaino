@@ -35,8 +35,6 @@ If your hand contains copies of only a single card, DR will suggest as many as p
 (prioritizing upgraded cards). Otherwise, DR will only suggest cards to retain if you can
 retain your whole hand.
 
-**TODO**: Test curses like Injury.
-
 ## Potential future features
 - Logic for forced discarding multiple cards
 - Logic for optional discarding of one or more cards
