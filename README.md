@@ -6,7 +6,7 @@ full of Strikes when retaining, so that it doesn't matter which
 card you choose? Well, look no further for a solution!
 
 Discardo Retaino (DR) is a quality-of-life mod that improves the discarding and retaining
-experiences. DR automatically selects a card for you to discard or retain when there is a clear choice.
+experiences. DR automatically selects cards for you to discard or retain when there is a clear choice.
 
 Sometimes DR will be wrong, and that's okay. The idea is to reduce the number of times
 you're mindlessly clicking to make an "obvious" choice.
@@ -18,13 +18,12 @@ When discarding, DR will ignore:
 - Ethereal status cards
 - Ethereal curse cards
 
+DR will only suggest a card to discard if you *must* discard exactly one card.
+
 DR will automatically suggest a card to discard when one of the following is true:
 - Your hand contains copies of only a single card (prioritizes non-upgraded cards)
 - Your hand contains Reflex or Tactician (not both) and no status/curse cards
 - Your hand contains neither Reflex nor Tactician and only one type of status/curse card
-
-**TODO**: Figure out how to handle discarding multiple cards. I think this can be done
-by first "discarding" one card, and then re-assessing the resulting hand.
 
 ### Retaining
 When retaining, DR will ignore:
@@ -38,11 +37,12 @@ retain your whole hand.
 
 **TODO**: Test curses like Injury.
 
-## Future features
-- Implement TODO logic (above)
+## Potential future features
+- Logic for forced discarding multiple cards
+- Logic for optional discarding of one or more cards
+  - Logic for Gambler's Brew
+- Should curses be retained?
+  - A setting for this
 - Implement exhaust features (e.g., True Grit+)
-- A setting to enable auto-discarding, not just auto-selecting (?)
-- A setting to enable/disable each condition above (?)
-- Should we retain curses?
-    - A setting for this (?)
-- What happens with Gambler's Brew?
+- A setting to enable auto-discarding, not just auto-selecting
+- Settings for determining the rules for discarding/retaining
